@@ -6,6 +6,8 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 /**
  * Created with adbus-Y.
  * Author  秋杰
@@ -13,4 +15,5 @@ import org.springframework.transaction.annotation.Transactional;
  * Date    2017/2/17
  */
 public interface DesignSheetDao extends JpaRepository<DesignSheet, Long> {
+    List<DesignSheet> findByContractId(Long contractId);
 }

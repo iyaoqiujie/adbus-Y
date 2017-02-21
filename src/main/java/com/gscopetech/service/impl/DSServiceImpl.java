@@ -50,6 +50,16 @@ public class DSServiceImpl implements DSService{
         return dsDao.findAll();
     }
 
+    @Override
+    public DesignSheet getDSById(Long dsId) {
+        return dsDao.findOne(dsId);
+    }
+
+    @Override
+    public List<DesignSheet> getDSByContract(Long contractId) {
+        return dsDao.findByContractId(contractId);
+    }
+
     @Transactional
     @Override
     public DesignSheet createOneDSheet(Long contractId) {

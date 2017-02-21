@@ -32,6 +32,18 @@ public class DSController {
         return dsService.getAllSheets();
     }
 
+    @RequestMapping(value = "allByContract", method = RequestMethod.GET)
+    @ResponseBody
+    public List<DesignSheet> getDSheetsByContract(@RequestParam(value = "contractId") Long contractId) {
+        return dsService.getDSByContract(contractId);
+    }
+
+    @RequestMapping(value = "oneDS", method = RequestMethod.GET)
+    @ResponseBody
+    public DesignSheet getOneDSheet(@RequestParam(value = "dsId") Long dsId) {
+        return dsService.getDSById(dsId);
+    }
+
     @RequestMapping(value = "dsmain", method = RequestMethod.GET)
     @ResponseBody
     public DSMain getDSheetMain(@RequestParam(value = "dsId") Long dsId) {

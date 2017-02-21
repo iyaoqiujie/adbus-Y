@@ -15,14 +15,16 @@ import java.util.List;
 public interface DSService {
     List<DesignSheet> getAllSheets();
 
-    DSMain getDSheetMain(Long dsId);
 
-    List<DSBusLine> getDSheetBusLine(Long dsId);
 
     DesignSheet createOneDSheet(Long contractId);
+    DesignSheet getDSById(Long dsId);
+    List<DesignSheet> getDSByContract(Long contractId);
 
+    DSMain getDSheetMain(Long dsId);
     DSMain updateDSheetMain(DSMain dsMain);
 
+    List<DSBusLine> getDSheetBusLine(Long dsId);
     List<DSBusLine> batchInsertDSBusLine(List<DSBusLine> dsBusLineList);
     DSBusLine updateDSBusLine(DSBusLine dsBusLine);
     void  deleteDSBusLine(DSBusLine dsBusLine);
