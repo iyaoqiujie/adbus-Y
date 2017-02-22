@@ -8,10 +8,10 @@ server:
 
 spring:
   datasource:
-    url : jdbc:mysql://192.168.31.11:3306/yaoqiujie?useUnicode=true&characterEncoding=utf-8
-    username : yqj
-    password : yqj
-    driverClassName : com.mysql.jdbc.Driver
+    url : jdbc:mysql://192.168.31.11:3306/adbusY?useUnicode=true&characterEncoding=utf-8
+    username : adbusYQJ
+    password : adbusYQJ
+    driverClassName : com.mysql.cj.jdbc.Driver
     dbcp2:
       test-on-borrow: true
       max-total: 50
@@ -27,7 +27,7 @@ spring:
 logging:
   file: adbus-Y
   level: debug
-  path: c:\Workspace\Logs
+  path: C:\Workspace\Logs
   pattern:
     console: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'
     file: '%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n'

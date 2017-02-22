@@ -72,6 +72,14 @@ public class DSServiceImpl implements DSService{
 
     @Transactional
     @Override
+    public DesignSheet createOneDSheet(DesignSheet designSheet) {
+        Long contractId = designSheet.getContractId();
+        myLogger.info("The specified contractId is [{}]", contractId);
+        return createOneDSheet(contractId);
+    }
+
+    @Transactional
+    @Override
     public DSMain updateDSheetMain(DSMain dsMain) {
         Long myDSId = dsMain.getDesignSheet().getId();
         DesignSheet myDS = dsDao.findOne(myDSId);
@@ -110,7 +118,12 @@ public class DSServiceImpl implements DSService{
         }
         DesignSheet myDS = dsBusLineList.get(0).getDesignSheet();
         if(myDS == null) {
-            myLogger.error("The specified design sheet is not created: ");
+            myLogger.error("No design sheet is specified");
+            return null;
+        }
+        Long dsId = myDS.getId();
+        if(dsDao.findOne(dsId) == null) {
+            myLogger.error("The specified design sheet[id={}] is not created yet.", dsId);
             return null;
         }
         for(DSBusLine myDSBusLine: dsBusLineList) {

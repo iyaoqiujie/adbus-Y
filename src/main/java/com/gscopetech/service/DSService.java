@@ -18,6 +18,7 @@ public interface DSService {
 
 
     DesignSheet createOneDSheet(Long contractId);
+    DesignSheet createOneDSheet(DesignSheet designSheet);
     DesignSheet getDSById(Long dsId);
     List<DesignSheet> getDSByContract(Long contractId);
 

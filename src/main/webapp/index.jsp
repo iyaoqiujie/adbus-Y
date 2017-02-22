@@ -8,9 +8,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <title>$Title$</title>
+    <title>测试</title>
+    <script src="./static/js/jquery-3.1.1.min.js"></script>
+    <script src="./static/js/unitTest.js?0.1"></script>
   </head>
   <body>
-  $END$
+  Hello World
   </body>
 </html>

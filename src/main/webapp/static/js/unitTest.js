@@ -1,3 +1,17 @@
+// 备注 ajax请求不能加 contentType参数
+function createDS() {
+    var dsData = { "contractId":23456 };
+    $.ajax({
+        type:"POST",
+        url:"dsheet/createDS",
+        dataType:"json",
+        contentType:"application/json",
+        data:JSON.stringify(dsData),
+        success:function(data){
+            }
+        });
+}
+
 function batchInsert() {
         var myDSheet = {"id":5, "contractId":123}
         var saveDataAry=[];
@@ -64,25 +78,3 @@ function delDSBusLine() {
         });
 }
 
-function findYQJ() {
-    var password = "";
-    $.ajax({
-        type: "GET",
-        url: "http://localhost:8080/get",
-        datatype: "json",
-        success: function (data) {
-           var msg = eval(data);
-           $.each(msg, function (index, content) {
-               if(content.username == "yaoqiujie") {
-                   password = content.password;
-               }
-               
-           })
-           alert(password);
-        },
-        error: function () {
-            alert("ERROR");
-        }
-    });
-    return password;
-}

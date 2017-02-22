@@ -56,10 +56,17 @@ public class DSController {
         return dsService.getDSheetBusLine(dsId);
     }
 
-    @RequestMapping(value = "createDS", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    @RequestMapping(value = "createDS", method = RequestMethod.POST)
+//    @ResponseBody
+//    public DesignSheet createOneDSheet(@RequestParam(value="contractId") Long contractId) {
+//        myLogger.debug("The given contractId is [{}]", contractId);
+//        return dsService.createOneDSheet(contractId);
+//    }
+
+    @RequestMapping(value = "createDS", method = RequestMethod.POST)
     @ResponseBody
-    public DesignSheet createOneDSheet(@RequestParam(value="contractId")Long contractId) {
-        return dsService.createOneDSheet(contractId);
+    public DesignSheet createOneDSheet(@RequestBody DesignSheet designSheet) {
+        return dsService.createOneDSheet(designSheet);
     }
 
     @RequestMapping(value = "updateDSMain", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
