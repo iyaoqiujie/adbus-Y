@@ -6,6 +6,9 @@
     </properties>
     <root id="archive" name="adbus-Y-0.0.1.war">
       <element id="artifact" artifact-name="Gradle : com.gscopetech : adbus-Y-0.0.1.war (exploded)" />
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" />
+      </element>
     </root>
   </artifact>
 </component>
