@@ -1,8 +1,10 @@
 package com.gscopetech.service.impl;
 
+import com.gscopetech.dao.DSAuditDao;
 import com.gscopetech.dao.DSBusLineDao;
 import com.gscopetech.dao.DSMainDao;
 import com.gscopetech.dao.DesignSheetDao;
+import com.gscopetech.entity.DSAudit;
 import com.gscopetech.entity.DSBusLine;
 import com.gscopetech.entity.DSMain;
 import com.gscopetech.entity.DesignSheet;
@@ -14,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class DSServiceImpl implements DSService{
 
     @Autowired
     private DSBusLineDao dsBusLineDao;
+
+    @Autowired
+    private DSAuditDao dsAuditDao;
 
     @Override
     public DSMain getDSheetMain(Long dsId) {
@@ -66,6 +72,9 @@ public class DSServiceImpl implements DSService{
         DesignSheet myDS = new DesignSheet();
         myDS.setContractId(contractId);
         myDS.setCreated(new Date());
+        myDS.setStatus(-1);
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        myLogger.warn("DS was creatd at: {}", dateFormat.format(myDS.getCreated()));
         dsDao.save(myDS);
         return myDS;
     }
@@ -89,15 +98,18 @@ public class DSServiceImpl implements DSService{
         }
         DSMain myDSMain = myDS.getDsMain();
         if(myDSMain == null) {
+            // Create
             dsMain.setDesignSheet(myDS);
+            dsMain.setSubDate(new Date());
+            dsMainDao.save(dsMain);
+            return dsMain;
         } else {
+            // Update
             myLogger.info("Update DSMain[id={}]", myDSMain.getId());
-            dsMain.setId(myDSMain.getId());
+            myDSMain.updateContent(dsMain);
+            dsMainDao.save(myDSMain);
+            return myDSMain;
         }
-
-        dsMain.setSubDate(new Date());
-        dsMainDao.saveAndFlush(dsMain);
-        return dsMain;
     }
 
     @Transactional
@@ -112,7 +124,7 @@ public class DSServiceImpl implements DSService{
 
     @Transactional
     @Override
-    public List<DSBusLine> batchInsertDSBusLine( List<DSBusLine> dsBusLineList) {
+    public List<DSBusLine> batchInsertDSBusLine(List<DSBusLine> dsBusLineList) {
         if(dsBusLineList.size() == 0) {
             return null;
         }
@@ -152,6 +164,48 @@ public class DSServiceImpl implements DSService{
         } else {
             myLogger.warn("The specified DSBusLine[id={}] does NOT exist.", myId);
         }
+    }
+
+    @Transactional
+    @Override
+    public Boolean auditDS(DSAudit dsAudit) {
+        DesignSheet myDS = null;
+        try {
+            Long dsId = dsAudit.getDesignSheet().getId();
+            myDS = dsDao.findOne(dsId);
+            if(myDS == null) {
+                myLogger.error("The given design sheet[id={}] does NOT exist.", dsId);
+                return false;
+            }
+        } catch (NullPointerException e) {
+            myLogger.error("No design sheet is specified");
+            return false;
+        }
+
+        dsAudit.setDesignSheet(myDS);
+        dsAudit.setAuditTime(new Date());
+        dsAuditDao.save(dsAudit);
+
+        // Refresh the state of the given design sheet
+        if(dsAudit.getApproved()) {
+           myDS.increStatus();
+        } else {
+            myDS.setStatus(0);
+        }
+        dsDao.save(myDS);
+
+        return true;
+
+    }
+
+    @Override
+    public List<DSAudit> getDSheetAudit(Long dsId){
+        DesignSheet myDS = dsDao.findOne(dsId);
+        if(myDS == null) {
+            return null;
+        }
+
+        return myDS.getDsAuditList();
     }
 
 }

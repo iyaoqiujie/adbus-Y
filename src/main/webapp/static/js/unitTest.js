@@ -35,7 +35,7 @@ function batchInsert() {
 
 function updateDSMain() {
     var myDSheet = {"id":2 };
-    var data = {"contractCode":"ABCD", "salesMan":"宋佩", "customer":"肯德基", "company":"自营中心",
+    var data = {"contractCode":"ABCDDDDDD", "salesMan":"宋佩", "customer":"肯德基", "company":"自营中心",
         "adContent":"肯德基好吃", "busNum":100, "auditPicCount":3, "designType":1, "requirements":"图片要大"};
     data.designSheet = myDSheet;
     $.ajax({
@@ -65,7 +65,7 @@ function updateDSBusLine() {
         });
 }
 function delDSBusLine() {
-        var data1={"id":3 };
+        var data1={"id":6 };
         $.ajax({
             type:"POST",
             url:"dsheet/deleteDSBusLine",
@@ -77,4 +77,21 @@ function delDSBusLine() {
             }
         });
 }
+function auditDS() {
+        //var myDSheet = {"id": 5 }    // 部门
 
+        //var data1={"department":"媒介", "auditor":"李明", "comments":"同意", "approved":true};
+    // var data1={"department":"自营", "auditor":"小红", "comments":"同意", "approved":true};
+    var data1={"department":"设计", "auditor":"小杰", "comments":"瞎搞", "approved":false};
+        //data1.designSheet=myDSheet;
+        $.ajax({
+            type:"POST",
+            url:"dsheet/auditDS",
+            dataType:"json",
+            contentType:"application/json",
+            data:JSON.stringify(data1),
+            success:function(data){
+                alert(data["result"]);
+            }
+        });
+}

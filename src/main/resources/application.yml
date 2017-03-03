@@ -24,6 +24,10 @@ spring:
     properties:
       hibernate:
         dialect : org.hibernate.dialect.MySQL5Dialect
+  jackson:
+    time-zone: Asia/Chongqing
+    date-format: java.text.SimpleDateFormat
+
 logging:
   file: adbus-Y
   level: debug
